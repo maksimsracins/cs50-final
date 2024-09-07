@@ -20,7 +20,7 @@ namespace WebApplication1.Models
                 new Category { CategoryId = "other", CategoryName = "Other" }
                 );
             modelBuilder.Entity<Status>().HasData(
-                new Status { StatusId = "open", StatusName = "Open" },
+                new Status { StatusId = "open", StatusName = "In progress" },
                 new Status { StatusId = "closed", StatusName = "Completed" });
         }
     }

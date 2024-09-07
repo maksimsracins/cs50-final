@@ -5,29 +5,29 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select name="filter" class="form-select"
-                asp-items="@(new SelectList(ViewBag.Categories,"CategoryId","CategoryName",ViewBag.Filters.CategoryId))">
-                <option value="all">All</option>
+                        asp-items="@(new SelectList(ViewBag.Categories,"CategoryId","CategoryName",ViewBag.Filters.CategoryId))">
+                    <option value="all">All</option>
                 </select>
             </div>
-    <div class="mb-3">
-        <label class="form-label">Due:</label>
-        <select name="filter" class="form-select"
-        asp-items="@(new SelectList(ViewBag.DueFilters,"Key","Value",ViewBag.Filters.Due))">
-        <option value="all">All</option>
-    </select>
+            <div class="mb-3">
+                <label class="form-label">Due:</label>
+                <select name="filter" class="form-select"
+                        asp-items="@(new SelectList(ViewBag.DueFilters,"Key","Value",ViewBag.Filters.Due))">
+                    <option value="all">All</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status:</label>
+                <select name="filter" class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Statuses,"StatusId", "StatusName", ViewBag.Filters.StatusId))">
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" asp-route-id="" class="btn btn-primary">Clear</a>
+        </form>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Status:</label>
-        <select name="filter" class="form-select"
-        asp-items="@(new SelectList(ViewBag.Statuses,"StatusId", "StatusName", ViewBag.Filters.StatusId))">
-    </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Filter</button>
-    <a asp-action="Index" asp-route-id="" class="btn btn-primary">Clear</a>
-    </form>
-    </div>
-    <div class="col-md-10">
-        <form asp-action="MarkComplete" method="post" asp-route-id="@ViewBag.Filters.FilterString">
+     <div class="col-md-10">
+        <form method="post" asp-route-id="@ViewBag.Filters.FilterString">
             <table class="table table-borderd table-striped mt-2">
                 <thead>
                     <tr>
@@ -41,16 +41,16 @@
                 <tbody>
                     @foreach (ToDo task in Model)
                     {
-                        string overdue = task.Overdue ? "bg-warning" : "";
+                        string overdue = task.Overdue ? "text-danger" : "";
                         <tr>
-                            <td>@task.Description</td>
-                            <td>@task.Category.CategoryName</td>
+                            <td class="@overdue">@task.Description</td>
+                            <td class="@overdue">@task.Category.CategoryName</td>
                             <td class="@overdue">@task.DueDate?.ToShortDateString()</td>
                             <td class="@overdue">@task.Status.StatusName</td>
                             <td>
                                 @if (task.StatusId == "open")
                                 {
-                                    <button type="submit" class="btn btn-primary btn-sm"
+                                    <button asp-action="MarkComplete" type="submit" class="btn btn-primary btn-sm"
                                             name="@nameof(ToDo.Id)" value="@task.Id">
                                         Mark Completed
                                     </button>
@@ -60,11 +60,15 @@
                     }
                 </tbody>
             </table>
+        </form> 
+        <form method="post">
+            <table class="table table-borderd table-striped mt-2">
+
+            </table>
         </form>
         <form asp-action="DeleteComplete" method="post" asp-route-id="@ViewBag.Filters.FilterString">
             <a asp-action="Add" class="btn btn-primary">Add new task</a>
             <button type="submit" class="btn btn-primary">Delete completed tasks</button>
-
         </form>
     </div>
 </div>

@@ -61,7 +61,8 @@ namespace WebApplication1.Controllers
                 _databaseContext.ToDos.Add(task);
                 _databaseContext.SaveChanges();
                 return RedirectToAction("Index");
-            } else
+            }
+            else
             {
                 ViewBag.Categories = _databaseContext.Categories.ToList();
                 ViewBag.Statuses = _databaseContext.Statuses.ToList();
